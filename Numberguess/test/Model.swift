@@ -5,7 +5,6 @@ class Model{
     
     func compare(guess guessedNumber:Int!) -> Int! {
         var result = 0
-        counterOfTrys = counterOfTrys+1
   
             if guessedNumber < numberToGuess {
                 result = -1
