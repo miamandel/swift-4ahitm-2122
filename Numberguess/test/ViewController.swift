@@ -2,8 +2,6 @@ import UIKit
 
 class ViewController: UIViewController {
     var model = Model()
-    var guessedNumber = 0
-
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -24,7 +22,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onclick(_ sender: UIButton) {
-        model.counterOfTrys += 1
+        let guess = Int(textField.text!)!
+        model.adGuessedNumber(guess: guess)
     }
     
     func compare(guessedString: String) -> Int! {
@@ -33,8 +32,8 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let resultViewController = segue.destination as? ResultViewController
-        resultViewController?.model = model
+        let tabelViewController = segue.destination as? TableViewController
+        tabelViewController?.model = model
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -45,33 +44,26 @@ class ViewController: UIViewController {
         return false
     }
     
-    func checkNumber() -> Bool{
-        if(Optional(guessedNumber) != nil){
-            print("")
-            guessedNumber = compare(guessedString: textField.text!)
-            
-            let text: String?
-            
-            switch guessedNumber{
-            case -1:
-                text = "Your number is to low"
-                label.text = text
-                return false
-            case 1:
-                text = "Your number is too high"
-                label.text = text
-                return false
-            default:
-                text = "Hurray! Thats the number!"
-                label.text = text
-                return true
-            }
-            
-            
+    func checkNumber() -> Bool {
+        let compareResult = compare(guessedString: textField.text!)
+        
+        let text: String?
+        
+        switch compareResult{
+        case -1:
+            text = "Your number is to low"
+            label.text = text
+            return false
+        case 1:
+            text = "Your number is too high"
+            label.text = text
+            return false
+        default:
+            text = "Hurray! Thats the number!"
+            label.text = text
+            return true
         }
         return false
     }
-
-
 }
 
